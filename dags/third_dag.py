@@ -28,7 +28,7 @@ from datetime import datetime
 
 args = {
     "owner": "airflow",
-    "start_date":datetime(2019, 11, 15),
+    "start_date": datetime(2019, 11, 15),
 }
 
 with DAG(
