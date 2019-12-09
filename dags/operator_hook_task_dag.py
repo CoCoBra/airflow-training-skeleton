@@ -42,7 +42,7 @@ with DAG(
 
     postgres_to_gcp = PostgresToGoogleCloudStorageOperator(task_id='postgres_to_gcp',
                                                            postgres_conn_id='postgres_training',
-                                                           query=get_postgres_data_query,
+                                                           sql=get_postgres_data_query,
                                                            bucket="airflow_training_ccb",
                                                            filename="land_registry_price_paid_uk_test"
                                                            )
