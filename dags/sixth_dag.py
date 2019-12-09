@@ -32,7 +32,7 @@ def _get_execution_date(**context):
 
 def _get_branch(**context):
     week_day = context['execution_date'].weekday()
-    if week_day in [0,1]:
+    if week_day in [0, 1]:
         return "email_bob"
     if week_day in [2, 3, 4]:
         return "email_alice"
@@ -66,7 +66,7 @@ with DAG(
     final_task = BashOperator(task_id='final_task', bash_command="echo final task", trigger_rule="one_success")
 
 
-print_execution_date >> [email_bob, email_alice, email_joe] >> final_task
+print_execution_date >> branching >> [email_bob, email_alice, email_joe] >> final_task
 
 
 
