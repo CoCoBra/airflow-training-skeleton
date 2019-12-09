@@ -30,42 +30,26 @@ args = {
     "start_date": airflow.utils.dates.days_ago(2),
 }
 
-dag = DAG(
+with DAG(
     dag_id='first_dag',
     default_args=args,
-    schedule_interval='0 0 * * *',
+    schedule_interval=None,
     dagrun_timeout=timedelta(minutes=60),
-)
+) as dag:
 
-t1 = DummyOperator(
-    task_id='t1',
-    dag=dag,
-)
+    t1 = DummyOperator(task_id='t1')
 
-t2 = DummyOperator(
-    task_id='t2',
-    dag=dag,
-)
+    t2 = DummyOperator(task_id='t2')
 
-t1 >> t2
+    t3 = DummyOperator(task_id='t3')
+
+    t4 = DummyOperator(task_id='t4')
+
+    t5 = DummyOperator(task_id='t5')
 
 
-t3 = DummyOperator(
-    task_id='t3',
-    dag=dag,
-)
+t1 >> t2 >> [t3, t4] >> t5
 
-t4 = DummyOperator(
-    task_id='t4',
-    dag=dag,
-)
 
-t2 >> t3
-t2 >> t4
 
-t5 = DummyOperator(
-    task_id='t5',
-    dag=dag,
-)
 
-(t3, t4) >> t5
