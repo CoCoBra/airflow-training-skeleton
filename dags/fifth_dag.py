@@ -18,7 +18,6 @@
 # under the License.
 
 
-from datetime import timedelta
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy_operator import DummyOperator
@@ -51,7 +50,3 @@ with DAG(
         wait = BashOperator(task_id=f"wait_{i}", bash_command=f"sleep {i}")
 
         print_execution_date >> wait >> the_end
-
-
-
-
