@@ -63,7 +63,7 @@ with DAG(
     email_alice = DummyOperator(task_id='email_alice')
     email_joe = DummyOperator(task_id='email_joe')
 
-    final_task = BashOperator(task_id='final_task', bash_command="echo final task", trigger_rule="one_success")
+    final_task = BashOperator(task_id='final_task', bash_command="echo final task", trigger_rule="none_failed")
 
 
 print_execution_date >> branching >> [email_bob, email_alice, email_joe] >> final_task
