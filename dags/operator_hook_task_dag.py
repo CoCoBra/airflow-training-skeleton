@@ -25,7 +25,7 @@ from datetime import datetime
 
 get_postgres_data_query = """
     SELECT * 
-    FROM land_registry_pric_paid_uk
+    FROM land_registry_price_paid_uk
     WHERE transfer_date = "{{ execution_date }}"
 """
 
