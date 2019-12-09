@@ -22,12 +22,22 @@ from datetime import timedelta
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python_operator import PythonOperator, BranchPythonOperator
 from datetime import datetime
 
 
 def _get_execution_date(**context):
     print(context['execution_date'])
+
+
+def _get_branch(**context):
+    week_day = context['execution_date'].weekday()
+    if week_day in [0,1]:
+        return "email_bob"
+    if week_day in [2, 3, 4]:
+        return "email_alice"
+    else:
+        return "email_joe"
 
 
 args = {
@@ -36,7 +46,7 @@ args = {
 }
 
 with DAG(
-    dag_id='fifth_dag',
+    dag_id='sixth_dag',
     default_args=args,
     schedule_interval='@daily'
 ) as dag:
@@ -45,19 +55,18 @@ with DAG(
                                           python_callable=_get_execution_date,
                                           provide_context=True)
 
-    wait_1 = BashOperator(task_id="wait_1", bash_command="sleep 1")
+    branching = BranchPythonOperator(task_id='branching',
+                                     python_callable=_get_branch,
+                                     provide_context=True)
 
-    wait_5 = BashOperator(task_id="wait_5", bash_command="sleep 5")
+    email_bob = DummyOperator(task_id='email_bob')
+    email_alice = DummyOperator(task_id='email_alice')
+    email_joe = DummyOperator(task_id='email_joe')
 
-    wait_10 = BashOperator(task_id="wait_10", bash_command="sleep 10")
-
-    # for i in [1, 5, 10]:
-    #     wait = BashOperator(task_id=f"wait_{i}", bash_command=f"sleep {i}")
-
-    the_end = DummyOperator(task_id='the_end')
+    final_task = BashOperator(task_id='final_task', bash_command="echo final task", trigger_rule="one_success")
 
 
-print_execution_date >> [wait_1, wait_5, wait_10] >> the_end
+print_execution_date >> [email_bob, email_alice, email_joe] >> final_task
 
 
 
