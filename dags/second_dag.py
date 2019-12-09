@@ -28,14 +28,13 @@ from datetime import datetime
 
 args = {
     "owner": "airflow",
-    "start_date": airflow.utils.dates.days_ago(2),
+    "start_date":datetime(2019, 12, 1),
 }
 
 with DAG(
     dag_id='second_dag',
     default_args=args,
-    schedule_interval='@daily',
-    start_date=datetime(2019, 12, 1)
+    schedule_interval='@daily'
 ) as dag:
 
     t1 = DummyOperator(task_id='t1')
