@@ -34,7 +34,7 @@ args = {
 with DAG(
     dag_id='third_dag',
     default_args=args,
-    schedule_interval='45 13 * * 1,3,5'
+    schedule_interval='45 13 * * 1,3,5' # '0 45 13 ? * MON, WED, FRI'
 ) as dag:
 
     t1 = DummyOperator(task_id='t1')
