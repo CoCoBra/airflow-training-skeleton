@@ -45,6 +45,7 @@ with DAG(
         postgres_conn_id='postgres_training',
         sql=get_postgres_data_query,
         bucket="airflow_training_ccb",
+        export_format="csv",
         filename="land_registry_price_paid_uk/{{ execution_date.date() }}.csv"
     )
 
