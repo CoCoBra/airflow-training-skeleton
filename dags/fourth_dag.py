@@ -34,7 +34,7 @@ args = {
 with DAG(
     dag_id='fourth_dag',
     default_args=args,
-    schedule_interval=timedelta(hours=2, minutes=30)
+    schedule_interval=datetime.timedelta(hours=2, minutes=30)
 ) as dag:
 
     t1 = DummyOperator(task_id='t1')
