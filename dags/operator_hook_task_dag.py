@@ -26,7 +26,7 @@ from datetime import datetime
 get_postgres_data_query = """
     SELECT * 
     FROM land_registry_price_paid_uk
-    WHERE transfer_date = "{{ execution_date.date() }}";
+    WHERE transfer_date = '{{ execution_date.date() }}';
 """
 
 args = {
