@@ -26,8 +26,8 @@ from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
 
 
-def _get_execution_date(execution_date, **_):
-    return execution_date
+def _get_execution_date(**context):
+    return context['execution_date']
 
 
 args = {
@@ -45,13 +45,19 @@ with DAG(
                                           python_callable=_get_execution_date,
                                           provide_context=True)
 
-    for i in [1, 5, 10]:
-        wait = BashOperator(task_id=f"wait_{i}", bash_command=f"sleep {i}")
+    wait_1 = BashOperator(task_id="wait_1", bash_command="sleep 1")
+
+    wait_5 = BashOperator(task_id="wait_5", bash_command="sleep 5")
+
+    wait_10 = BashOperator(task_id="wait_10", bash_command="sleep 10")
+
+    # for i in [1, 5, 10]:
+    #     wait = BashOperator(task_id=f"wait_{i}", bash_command=f"sleep {i}")
 
     the_end = DummyOperator(task_id='the_end')
 
 
-print_execution_date >> wait >> the_end
+print_execution_date >> [wait_1, wait_5, wait_10] >> the_end
 
 
 
