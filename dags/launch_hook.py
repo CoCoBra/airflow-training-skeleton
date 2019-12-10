@@ -1,4 +1,4 @@
-from airflow.hooks.base_hooks import BaseHook
+from airflow.hooks.base_hook import BaseHook
 import requests
 
 
@@ -25,6 +25,8 @@ class LaunchHook(BaseHook):
         )
 
         response.raise_for_get_status()
+
+        ## Can also e.g. add pagination
 
         return response.json()["launches"]
 
