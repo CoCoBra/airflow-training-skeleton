@@ -1,5 +1,5 @@
 from airflow.contrib.operators.sql_to_gcs import BaseSQLToGoogleCloudStorageOperator
-from dags.hooks import LaunchHook
+from .launch_hook import LaunchHook
 from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
 from airflow.utils.decorators import apply_defaults
 import tempfile

@@ -20,7 +20,7 @@
 
 from airflow.models import DAG
 from datetime import datetime
-from dags.operators import LaunchToGcsOperator
+from .launch_to_gcs_operator import LaunchToGcsOperator
 
 args = {
     "owner": "airflow",
