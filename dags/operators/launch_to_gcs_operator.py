@@ -5,13 +5,12 @@ from airflow.utils.decorators import apply_defaults
 import tempfile
 import os
 import json
-from hooks.launch_hook import LaunchHook
+from .hooks.launch_hook import LaunchHook
 
 
 class LaunchToGcsOperator(BaseOperator):
 
     ui_color = '#555’'
-    ui_fgcolor = '#fff'
 
     @apply_defaults
     def __init__(self, start_date, end_date, output_bucket, output_path, **kwargs):

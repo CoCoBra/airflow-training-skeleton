@@ -20,19 +20,7 @@
 
 from airflow.models import DAG
 from datetime import datetime
-from operators.launch_to_gcs_operator import LaunchToGcsOperator
-import tempfile
-import os
-import json
-
-
-# def _print_stats():
-#     with tempfile.TemporaryDirectory() as tmp_dir:
-#         tmp_path = os.path.join(tmp_dir, 'results.json')
-#         with open(tmp_path, "r") as file_:
-#             data = json.load(file_)
-#             rockets_launched = [launch["name"] for launch in data["launches"]]
-#             rockets_str = ""
+from .operators.launch_to_gcs_operator import LaunchToGcsOperator
 
 
 args = {
