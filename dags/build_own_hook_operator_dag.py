@@ -20,7 +20,7 @@
 
 from airflow.models import DAG
 from datetime import datetime
-from .launch_to_gcs_operator import LaunchToGcsOperator
+from launch_to_gcs_operator import LaunchToGcsOperator
 import tempfile
 import os
 import json
@@ -39,11 +39,6 @@ args = {
     "owner": "airflow",
     "start_date": datetime(2019, 12, 5),
 }
-
-
-
-
-
 
 with DAG(
     dag_id='build_own_operator_dag',
