@@ -20,7 +20,7 @@
 
 from airflow.models import DAG
 from datetime import datetime
-from .operators import LaunchToGcsOperator
+from dags.operators import LaunchToGcsOperator
 
 args = {
     "owner": "airflow",
@@ -42,6 +42,7 @@ with DAG(
 
     )
 
+    print_stats =
 
 
 
