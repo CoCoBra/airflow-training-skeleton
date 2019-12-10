@@ -1,4 +1,4 @@
-from airflow.contrib.operators.sql_to_gcs import BaseSQLToGoogleCloudStorageOperator
+from airflow.operators.base_operator import BaseOperator
 from launch_hook import LaunchHook
 from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
 from airflow.utils.decorators import apply_defaults
@@ -7,7 +7,7 @@ import os
 import json
 
 
-class LaunchToGcsOperator(BaseSQLToGoogleCloudStorageOperator):
+class LaunchToGcsOperator(BaseOperator):
 
     ui_color = '#555’'
     ui_fgcolor = '#fff'
