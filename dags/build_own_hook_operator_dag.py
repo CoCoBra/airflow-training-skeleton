@@ -20,7 +20,7 @@
 
 from airflow.models import DAG
 from datetime import datetime
-from launch_to_gcs_operator import LaunchToGcsOperator
+from .launch_to_gcs_operator import LaunchToGcsOperator
 import tempfile
 import os
 import json

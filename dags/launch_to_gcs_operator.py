@@ -5,6 +5,7 @@ from airflow.utils.decorators import apply_defaults
 import tempfile
 import os
 import json
+from .launch_hook import LaunchHook
 
 
 class LaunchToGcsOperator(BaseOperator):
