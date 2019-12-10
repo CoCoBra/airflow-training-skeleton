@@ -13,10 +13,10 @@ class LaunchToGcsOperator(BaseOperator):
     ui_fgcolor = '#fff'
 
     @apply_defaults
-    def __init__(self, gcp_conn_id, start_date, end_date, output_bucket, output_path, **kwargs):
+    def __init__(self, start_date, end_date, output_bucket, output_path, **kwargs):
         super().__init__( **kwargs)
 
-        self._gcp_conn_id = gcp_conn_id
+        # self._gcp_conn_id = gcp_conn_id
 
         self.start_date = start_date
         self.end_date = end_date

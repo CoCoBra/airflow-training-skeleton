@@ -53,7 +53,7 @@ with DAG(
 
     launch_to_gcp = LaunchToGcsOperator(
         task_id='launch_to_gcp',
-        bucket_name="airflow_training_ccb",
+        output_bucket="airflow_training_ccb",
         output_path="launch_data/{{ ds }}.json",
         start_date="{{ ds }}",
         end_date="{{ tomorrow_ds }}"
