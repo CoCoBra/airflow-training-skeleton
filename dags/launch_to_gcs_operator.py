@@ -1,4 +1,4 @@
-from airflow.operators.baseoperator import BaseOperator
+from airflow.models import BaseOperator
 from launch_hook import LaunchHook
 from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
 from airflow.utils.decorators import apply_defaults
