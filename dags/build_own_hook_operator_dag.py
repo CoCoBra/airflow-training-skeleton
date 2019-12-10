@@ -42,7 +42,7 @@ with DAG(
 
     )
 
-    print_stats =
+    #print_stats =
 
 
 
