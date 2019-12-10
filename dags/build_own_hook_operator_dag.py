@@ -20,7 +20,93 @@
 
 from airflow.models import DAG
 from datetime import datetime
-from .operators.launch_to_gcs_operator import LaunchToGcsOperator
+
+from airflow.hooks.base_hook import BaseHook
+import requests
+
+from airflow.models import BaseOperator
+from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
+from airflow.utils.decorators import apply_defaults
+import tempfile
+import os
+import json
+
+
+class LaunchHook(BaseHook):
+
+    base_url = 'https://launchlibrary.net'
+
+    def __init__(self, conn_id, api_version):
+        super().__init__(source=None)
+        self._conn_id = conn_id
+        self._api_version = api_version
+
+        self._conn = None
+
+    def get_conn(self):
+        session = requests.Session()
+        return session
+
+    def get_launches(self, start_date: str, end_date: str):
+        session = self.get_conn()
+        response = session.get(
+            "{self.base_url}/{self.api_version}/launches",
+            params={"start_date":start_date, "end_date": end_date}
+        )
+
+        response.raise_for_get_status()
+
+        ## Can also e.g. add pagination
+
+        return response.json()["launches"]
+
+class LaunchToGcsOperator(BaseOperator):
+
+    ui_color = '#555’'
+
+    @apply_defaults
+    def __init__(self, start_date, end_date, output_bucket, output_path, **kwargs):
+        super().__init__( **kwargs)
+
+        # self._gcp_conn_id = gcp_conn_id
+
+        self.start_date = start_date
+        self.end_date = end_date
+
+        self.output_bucket = output_bucket
+        self.output_path = output_path
+
+    def execute(self, context):
+
+        results = self._query_launch_api()
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = os.path.join(tmp_dir, 'results.json')
+            with open(tmp_path, "w") as file_:
+                json.dump(results, file_)
+
+        self._upload_to_gcs_bucket(tmp_path)
+
+    def _query_launch_api(self):
+        lh = LaunchHook()
+        launch_data = lh.get_launches(
+            start_date=self.start_date,
+            end_date=self.end_date
+        )
+
+        return launch_data
+
+    def _upload_to_gcs_bucket(self, tmp_path):
+
+        gcs_hook = GoogleCloudStorageHook(
+            google_cloud_storage_conn_id=self._gcp_conn_id
+        )
+
+        gcs_hook.upload(
+            bucket=self.output_bucket,
+            object=self.output_path,
+            filename=tmp_path
+        )
 
 
 args = {
