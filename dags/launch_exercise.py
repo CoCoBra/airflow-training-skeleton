@@ -14,7 +14,7 @@ with DAG(
         default_args=args,
         schedule_interval="0 0 * * *"
 ) as dag:
-    output_bucket = "airflow-training-data-jrderuiter"
+    output_bucket = "airflow_training_ccb"
     output_path = "launches/{{ ds }}.json"
 
     LaunchToGcsOperator(
