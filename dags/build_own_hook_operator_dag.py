@@ -21,11 +21,15 @@
 from airflow.models import DAG
 from datetime import datetime
 from launch_to_gcs_operator import LaunchToGcsOperator
+import tempfile
 
 args = {
     "owner": "airflow",
     "start_date": datetime(2019, 12, 5),
 }
+
+# def _print_stats():
+
 
 with DAG(
     dag_id='build_own_operator_dag',
@@ -42,7 +46,10 @@ with DAG(
 
     )
 
-    #print_stats =
+    # print_stats = PythonOperator(
+    #
+    #
+    # )
 
 
 

@@ -1,4 +1,4 @@
-from airflow.operators.base_operator import BaseOperator
+from airflow.models.baseoperator import BaseOperator
 from launch_hook import LaunchHook
 from airflow.contrib.hooks.gcs_hook import GoogleCloudStorageHook
 from airflow.utils.decorators import apply_defaults
@@ -14,7 +14,7 @@ class LaunchToGcsOperator(BaseOperator):
 
     @apply_defaults
     def __init__(self, gcp_conn_id, start_date, end_date, output_bucket, output_path, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__( **kwargs)
 
         self._gcp_conn_id = gcp_conn_id
 
