@@ -18,10 +18,9 @@
 # under the License.
 
 
-from datetime import timedelta
 from airflow.models import DAG
 from datetime import datetime
-from .operators.launch_to_gcs_operator import LaunchToGcsOperator
+from .operators import LaunchToGcsOperator
 
 args = {
     "owner": "airflow",
